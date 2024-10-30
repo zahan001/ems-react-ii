@@ -1,14 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { fetchEmployees, deleteEmployee, fetchDepartments, addEmployee, updateEmployee } from '../api/api'; 
+import { fetchEmployees, deleteEmployee, fetchDepartments, addEmployee, updateEmployee } from '../api/api';
 import './EmployeeList.css';
 
 const EmployeeList = () => {
   const [employees, setEmployees] = useState([]);
   const [filteredEmployees, setFilteredEmployees] = useState([]);
-  const [departments, setDepartments] = useState([]); // State to hold department data
+  const [departments, setDepartments] = useState([]);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
-  const [newEmployee, setNewEmployee] = useState({ empNo: '', empName: '', departmentCode: '' });
+  const [newEmployee, setNewEmployee] = useState({
+    empNo: '',
+    empName: '',
+    empAddressLine1: '',
+    empAddressLine2: '',
+    empAddressLine3: '',
+    departmentCode: '',
+    dateOfJoin: new Date().toISOString().split('T')[0], // Set current date (YYYY-MM-DD format)
+    dateOfBirth: '', // Placeholder; the user might fill this
+    basicSalary: 0, // Default value; change if needed
+    isActive: true // Default value
+  });
   const [editEmployeeId, setEditEmployeeId] = useState(null);
 
   useEffect(() => {
@@ -24,17 +35,16 @@ const EmployeeList = () => {
 
     const getDepartments = async () => {
       try {
-        const data = await fetchDepartments(); // Fetch departments from API
-        console.log('Departments fetched:', data); // Debugging statement
-        setDepartments(data); // Set departments to state
+        const data = await fetchDepartments();
+        setDepartments(data);
       } catch (err) {
-        console.error('Failed to fetch departments:', err); // Detailed error log
-        setError('Error fetching departments: ' + err.message); // Display error to user
+        console.error('Failed to fetch departments:', err);
+        setError('Error fetching departments: ' + err.message);
       }
     };
 
-    getEmployees(); // Fetch employees on component mount
-    getDepartments(); // Fetch departments on component mount
+    getEmployees();
+    getDepartments();
   }, []);
 
   const handleDelete = async (empNo) => {
@@ -67,17 +77,35 @@ const EmployeeList = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Ensure all required fields are filled out
+    if (!newEmployee.empNo || !newEmployee.empName || !newEmployee.departmentCode) {
+      setError('Please fill in all required fields.');
+      return;
+    }
+
     try {
       if (editEmployeeId) {
         const updatedEmployee = { ...newEmployee, empNo: editEmployeeId };
         await updateEmployee(updatedEmployee);
         setEmployees(employees.map(emp => (emp.empNo === editEmployeeId ? updatedEmployee : emp)));
       } else {
-        const addedEmployee = await addEmployee(newEmployee);
-        setEmployees([...employees, addedEmployee]);
+        await addEmployee(newEmployee);
+        setEmployees([...employees, newEmployee]);
       }
       setFilteredEmployees([...employees, newEmployee]);
-      setNewEmployee({ empNo: '', empName: '', departmentCode: '' });
+      // Reset form after submission
+      setNewEmployee({
+        empNo: '',
+        empName: '',
+        empAddressLine1: '',
+        empAddressLine2: '',
+        empAddressLine3: '',
+        departmentCode: '',
+        dateOfJoin: new Date().toISOString().split('T')[0], // Reset to today's date
+        dateOfBirth: '', // Reset the date of birth
+        basicSalary: 0, // Reset to default
+        isActive: true, // Reset to default
+      });
       setEditEmployeeId(null);
     } catch (err) {
       setError('Error adding employee: ' + err.message);
@@ -85,7 +113,18 @@ const EmployeeList = () => {
   };
 
   const handleEdit = (emp) => {
-    setNewEmployee({ empNo: emp.empNo, empName: emp.empName, departmentCode: emp.departmentCode });
+    setNewEmployee({ 
+      empNo: emp.empNo, 
+      empName: emp.empName, 
+      empAddressLine1: emp.empAddressLine1 || '', 
+      empAddressLine2: emp.empAddressLine2 || '', 
+      empAddressLine3: emp.empAddressLine3 || '', 
+      departmentCode: emp.departmentCode, 
+      dateOfJoin: emp.dateOfJoin.split('T')[0], // Adjust format
+      dateOfBirth: emp.dateOfBirth ? emp.dateOfBirth.split('T')[0] : '', // Adjust format
+      basicSalary: emp.basicSalary || 0, 
+      isActive: emp.isActive !== undefined ? emp.isActive : true 
+    });
     setEditEmployeeId(emp.empNo);
   };
 
@@ -104,11 +143,52 @@ const EmployeeList = () => {
         <div className="mb-3">
           <input
             type="text"
+            name="empNo"
+            placeholder="Employee No"
+            value={newEmployee.empNo}
+            onChange={handleInputChange}
+            required
+            className="form-control"
+          />
+        </div>
+        <div className="mb-3">
+          <input
+            type="text"
             name="empName"
             placeholder="Employee Name"
             value={newEmployee.empName}
             onChange={handleInputChange}
             required
+            className="form-control"
+          />
+        </div>
+        <div className="mb-3">
+          <input
+            type="text"
+            name="empAddressLine1"
+            placeholder="Address Line 1"
+            value={newEmployee.empAddressLine1}
+            onChange={handleInputChange}
+            className="form-control"
+          />
+        </div>
+        <div className="mb-3">
+          <input
+            type="text"
+            name="empAddressLine2"
+            placeholder="Address Line 2"
+            value={newEmployee.empAddressLine2}
+            onChange={handleInputChange}
+            className="form-control"
+          />
+        </div>
+        <div className="mb-3">
+          <input
+            type="text"
+            name="empAddressLine3"
+            placeholder="Address Line 3"
+            value={newEmployee.empAddressLine3}
+            onChange={handleInputChange}
             className="form-control"
           />
         </div>
@@ -127,6 +207,36 @@ const EmployeeList = () => {
               </option>
             ))}
           </select>
+        </div>
+        <div className="mb-3">
+          <input
+            type="date"
+            name="dateOfJoin"
+            value={newEmployee.dateOfJoin}
+            onChange={handleInputChange}
+            required
+            className="form-control"
+          />
+        </div>
+        <div className="mb-3">
+          <input
+            type="date"
+            name="dateOfBirth"
+            value={newEmployee.dateOfBirth}
+            onChange={handleInputChange}
+            className="form-control"
+          />
+        </div>
+        <div className="mb-3">
+          <input
+            type="number"
+            name="basicSalary"
+            placeholder="Basic Salary"
+            value={newEmployee.basicSalary}
+            onChange={handleInputChange}
+            required
+            className="form-control"
+          />
         </div>
         <button type="submit" className="btn btn-primary">
           {editEmployeeId ? 'Update Employee' : 'Add Employee'}
