@@ -1,41 +1,39 @@
-.employee-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 20px auto;
+/* src/components/EmployeeForm.css */
+
+.employee-form-container {
     padding: 20px;
     border: 1px solid #ccc;
-    border-radius: 5px;
-    max-width: 500px; /* Limit form width */
-    background-color: #f9f9f9; /* Light background */
-}
-
-.employee-form h2 {
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
-}
-
-.employee-form label {
-    margin: 10px 0 5px;
+  }
+  
+  .employee-form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  label {
+    margin-bottom: 5px;
     font-weight: bold;
-}
-
-.employee-form input,
-.employee-form select,
-.employee-form button {
-    width: 100%; /* Full width */
-    padding: 10px;
-    margin: 5px 0;
-    border: 1px solid #ddd;
+  }
+  
+  input[type="text"],
+  input[type="date"],
+  input[type="number"],
+  select {
+    padding: 8px;
+    border: 1px solid #ccc;
     border-radius: 4px;
-}
-
-.employee-form button {
-    background-color: #007bff; /* Primary button color */
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-.employee-form button:hover {
-    background-color: #0056b3; /* Darker shade on hover */
-}
+    width: 100%;
+  }
+  
+  .btn {
+    margin-top: 10px;
+  }
+  

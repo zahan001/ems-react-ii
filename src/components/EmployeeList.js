@@ -9,16 +9,16 @@ const EmployeeList = () => {
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [newEmployee, setNewEmployee] = useState({
-    empNo: '',
+    empNo: '', // This will be generated randomly
     empName: '',
     empAddressLine1: '',
     empAddressLine2: '',
     empAddressLine3: '',
     departmentCode: '',
-    dateOfJoin: new Date().toISOString().split('T')[0], // Set current date (YYYY-MM-DD format)
-    dateOfBirth: '', // Placeholder; the user might fill this
-    basicSalary: 0, // Default value; change if needed
-    isActive: true // Default value
+    dateOfJoin: new Date().toISOString().split('T')[0],
+    dateOfBirth: '',
+    basicSalary: 0,
+    isActive: true,
   });
   const [editEmployeeId, setEditEmployeeId] = useState(null);
 
@@ -74,37 +74,45 @@ const EmployeeList = () => {
     setNewEmployee({ ...newEmployee, [name]: value });
   };
 
+  const generateRandomEmpNo = () => {
+    return Math.floor(100000 + Math.random() * 900000).toString(); // Generates a 6-digit number
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Assign a random unique Employee No if adding a new employee
+    const empNo = editEmployeeId ? editEmployeeId : generateRandomEmpNo();
+    const employeeToAdd = { ...newEmployee, empNo };
+
     // Ensure all required fields are filled out
-    if (!newEmployee.empNo || !newEmployee.empName || !newEmployee.departmentCode) {
+    if (!employeeToAdd.empName || !employeeToAdd.departmentCode) {
       setError('Please fill in all required fields.');
       return;
     }
 
     try {
       if (editEmployeeId) {
-        const updatedEmployee = { ...newEmployee, empNo: editEmployeeId };
+        const updatedEmployee = { ...employeeToAdd, empNo: editEmployeeId };
         await updateEmployee(updatedEmployee);
         setEmployees(employees.map(emp => (emp.empNo === editEmployeeId ? updatedEmployee : emp)));
       } else {
-        await addEmployee(newEmployee);
-        setEmployees([...employees, newEmployee]);
+        await addEmployee(employeeToAdd);
+        setEmployees([...employees, employeeToAdd]);
+        setFilteredEmployees([...filteredEmployees, employeeToAdd]); // Ensure the new employee is added to filtered list
       }
-      setFilteredEmployees([...employees, newEmployee]);
       // Reset form after submission
       setNewEmployee({
-        empNo: '',
+        empNo: '', // Reset but not shown
         empName: '',
         empAddressLine1: '',
         empAddressLine2: '',
         empAddressLine3: '',
         departmentCode: '',
-        dateOfJoin: new Date().toISOString().split('T')[0], // Reset to today's date
-        dateOfBirth: '', // Reset the date of birth
-        basicSalary: 0, // Reset to default
-        isActive: true, // Reset to default
+        dateOfJoin: new Date().toISOString().split('T')[0],
+        dateOfBirth: '',
+        basicSalary: 0,
+        isActive: true,
       });
       setEditEmployeeId(null);
     } catch (err) {
@@ -114,7 +122,7 @@ const EmployeeList = () => {
 
   const handleEdit = (emp) => {
     setNewEmployee({ 
-      empNo: emp.empNo, 
+      empNo: emp.empNo, // The empNo will not be edited; it stays the same
       empName: emp.empName, 
       empAddressLine1: emp.empAddressLine1 || '', 
       empAddressLine2: emp.empAddressLine2 || '', 
@@ -140,17 +148,7 @@ const EmployeeList = () => {
         className="form-control mb-3"
       />
       <form onSubmit={handleSubmit} className="mb-4">
-        <div className="mb-3">
-          <input
-            type="text"
-            name="empNo"
-            placeholder="Employee No"
-            value={newEmployee.empNo}
-            onChange={handleInputChange}
-            required
-            className="form-control"
-          />
-        </div>
+        {/* Employee No input is removed */}
         <div className="mb-3">
           <input
             type="text"
