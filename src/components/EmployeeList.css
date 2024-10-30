@@ -1,0 +1,42 @@
+/* EmployeeList.css */
+body {
+  font-family: 'Open Sans', sans-serif;
+  background-color: #f4f7fa; /* Light background for contrast */
+}
+
+.employee-list {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.employee-card {
+  background-color: white; /* White background for cards */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 15px 0;
+  transition: transform 0.2s; /* Smooth scale effect */
+}
+
+.employee-card:hover {
+  transform: scale(1.02); /* Slightly enlarge on hover */
+}
+
+button {
+  background-color: #007bff; /* Primary color */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3; /* Darker on hover */
+}
+
+h2 {
+  color: #333; /* Darker text for headers */
+}

@@ -1,0 +1,25 @@
+/* src/styles.css */
+
+.App {
+    font-family: Arial, sans-serif; /* Set font for the app */
+    margin: 20px; /* Add margin */
+  }
+  
+  h1 {
+    color: #333; /* Heading color */
+  }
+  
+  table {
+    width: 100%; /* Make the table full width */
+    border-collapse: collapse; /* Collapse table borders */
+  }
+  
+  th, td {
+    padding: 10px; /* Add padding */
+    border: 1px solid #ddd; /* Add border */
+  }
+  
+  button {
+    margin-right: 5px; /* Add margin to buttons */
+  }
+  
