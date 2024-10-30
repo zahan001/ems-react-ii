@@ -1,76 +1,33 @@
 /* App.css */
 .app-container {
-  margin: 20px;
   padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  box-shadow: 2px 2px 12px #aaa;
+  background-color: #f8f9fa; /* Light background */
+  border-radius: 5px;
 }
 
-.employee-form {
+h1 {
+  text-align: center;
   margin-bottom: 20px;
+  color: #343a40; /* Dark text */
 }
 
-.employee-form h2 {
-  color: #333;
-}
-
-.employee-form label {
-  display: block;
-  margin: 10px 0 5px;
-}
-
-.employee-form input,
-.employee-form select {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.employee-form button {
-  background-color: #28a745;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.employee-form button:hover {
-  background-color: #218838;
-}
-
-.employee-list {
+.table {
   margin-top: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.employee-list table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.employee-list th,
-.employee-list td {
-  padding: 10px;
-  text-align: left;
-  border-bottom: 1px solid #ccc;
-}
-
-.employee-list th {
-  background-color: #f8f9fa;
-}
-
-.employee-list button {
-  background-color: #007bff;
+.table th {
+  background-color: #007bff; /* Bootstrap primary */
   color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 5px;
-  cursor: pointer;
 }
 
-.employee-list button:hover {
-  background-color: #0056b3;
+.btn {
+  margin-right: 10px; /* Space between buttons */
+}
+
+/* Alert Styles */
+.alert {
+  position: relative;
+  margin-bottom: 20px;
+  z-index: 1000; /* Ensure alerts are above other content */
 }
