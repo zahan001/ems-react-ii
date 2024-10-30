@@ -5,21 +5,18 @@ const EmployeeForm = ({ onEmployeeAdded }) => {
     const [formData, setFormData] = useState({
         name: '',
         departmentId: '',
-        // ... other fields as necessary
+        // Add other fields as needed
     });
-    
+
     const [departments, setDepartments] = useState([]);
 
+    // Fetch departments on component mount
     useEffect(() => {
-        const loadDepartments = async () => {
-            try {
-                const deptData = await fetchDepartments();
-                setDepartments(deptData);
-            } catch (error) {
-                console.error('Error fetching departments:', error);
-            }
+        const getDepartments = async () => {
+            const departmentData = await fetchDepartments();
+            setDepartments(departmentData);
         };
-        loadDepartments();
+        getDepartments();
     }, []);
 
     const handleChange = (e) => {
@@ -33,14 +30,14 @@ const EmployeeForm = ({ onEmployeeAdded }) => {
         setFormData({
             name: '',
             departmentId: '',
-            // ... reset other fields
+            // Reset other fields as needed
         });
-        onEmployeeAdded(); // Callback to refetch employees
+        // Notify parent component to update the list
+        onEmployeeAdded();
     };
 
     return (
-        <form onSubmit={handleSubmit} className="employee-form">
-            <h2>Add Employee</h2>
+        <form onSubmit={handleSubmit}>
             <label>Name</label>
             <input
                 type="text"
@@ -57,9 +54,9 @@ const EmployeeForm = ({ onEmployeeAdded }) => {
                 required
             >
                 <option value="">Select Department</option>
-                {departments.map(department => (
-                    <option key={department.id} value={department.id}>
-                        {department.name}
+                {departments.map((dept) => (
+                    <option key={dept.id} value={dept.id}>
+                        {dept.name}
                     </option>
                 ))}
             </select>

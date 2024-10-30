@@ -1,5 +1,3 @@
-// src/api.js
-
 import axios from 'axios';
 
 // Base URL for the API
@@ -41,7 +39,11 @@ export const fetchDepartments = async () => {
 export const addEmployee = async (employeeData) => {
   try {
     const response = await apiClient.post('/api/v1.0/Employee', employeeData); // API endpoint to add employee
-    return response.data; // Return the data from the response
+    if (response.status === 201) { // Check if the response status is 201 (Created)
+      return response.data; // Return the data from the response
+    } else {
+      throw new Error('Failed to add employee'); // Handle unexpected response
+    }
   } catch (error) {
     console.error('Error adding employee:', error); // Log error
     throw error; // Throw error to be handled in the calling component
@@ -52,7 +54,11 @@ export const addEmployee = async (employeeData) => {
 export const updateEmployee = async (employeeData) => {
   try {
     const response = await apiClient.put('/api/v1.0/Employee', employeeData); // API endpoint to update employee
-    return response.data; // Return the data from the response
+    if (response.status === 200) { // Check if the response status is 200 (OK)
+      return response.data; // Return the data from the response
+    } else {
+      throw new Error('Failed to update employee'); // Handle unexpected response
+    }
   } catch (error) {
     console.error('Error updating employee:', error); // Log error
     throw error; // Throw error to be handled in the calling component
@@ -62,7 +68,10 @@ export const updateEmployee = async (employeeData) => {
 // Delete an employee
 export const deleteEmployee = async (empNo) => {
   try {
-    await apiClient.delete(`/api/v1.0/Employee/${empNo}`); // API endpoint to delete employee by empNo
+    const response = await apiClient.delete(`/api/v1.0/Employee/${empNo}`); // API endpoint to delete employee by empNo
+    if (response.status !== 204) { // Check if the response status is 204 (No Content)
+      throw new Error('Failed to delete employee'); // Handle unexpected response
+    }
   } catch (error) {
     console.error('Error deleting employee:', error); // Log error
     throw error; // Throw error to be handled in the calling component

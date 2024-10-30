@@ -1,38 +1,76 @@
-.App {
-  text-align: center;
+/* App.css */
+.app-container {
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 2px 2px 12px #aaa;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.employee-form {
+  margin-bottom: 20px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.employee-form h2 {
+  color: #333;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.employee-form label {
+  display: block;
+  margin: 10px 0 5px;
+}
+
+.employee-form input,
+.employee-form select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.employee-form button {
+  background-color: #28a745;
   color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-.App-link {
-  color: #61dafb;
+.employee-form button:hover {
+  background-color: #218838;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.employee-list {
+  margin-top: 20px;
+}
+
+.employee-list table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.employee-list th,
+.employee-list td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ccc;
+}
+
+.employee-list th {
+  background-color: #f8f9fa;
+}
+
+.employee-list button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.employee-list button:hover {
+  background-color: #0056b3;
 }
