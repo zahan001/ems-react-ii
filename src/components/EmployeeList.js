@@ -57,6 +57,7 @@ const EmployeeList = () => {
       const updatedEmployees = employees.filter(emp => emp.empNo !== empNo);
       setEmployees(updatedEmployees); // Updates the employees state
       setFilteredEmployees(updatedEmployees); // Updates the filtered list
+      setError(null); // Reset error state on successful deletion
     } catch (err) {
       setError('Error deleting employee');
     }
@@ -126,6 +127,7 @@ const EmployeeList = () => {
         isActive: true,
       });
       setEditEmployeeId(null);
+      setError(null); // Reset error state on successful add/update
     } catch (err) {
       setError('Error adding employee: ' + err.message);
     }

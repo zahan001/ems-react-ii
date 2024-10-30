@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Base URL for the API
-const BASE_URL = 'http://examination.24x7retail.com'; // Updated to HTTPS
+const BASE_URL = 'http://examination.24x7retail.com'; 
 const API_TOKEN = '?D(G+KbPeSgVkYp3s6v9y$B&E)H@McQf'; // API key
 
 // Create an Axios instance with default headers

@@ -85,3 +85,7 @@ h2 {
   margin-bottom: 20px;
   z-index: 1000; /* Ensure alert is on top */
 }
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
