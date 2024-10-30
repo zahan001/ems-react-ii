@@ -138,15 +138,22 @@ const EmployeeList = () => {
 
   return (
     <div className="container mt-5">
-      <h2>Employee List</h2>
+      <h2>Employee Search</h2>
       {error && <div className="alert alert-danger">{error}</div>}
+
+      {/* Separate search bar section */}
+      <div className='search-bar'>
       <input
         type="text"
         placeholder="Search by name or department"
         value={searchTerm}
         onChange={handleSearchChange}
-        className="form-control mb-3"
+        className="form-control"
       />
+      </div>
+
+      <h2>Employee Form</h2>
+
       <form onSubmit={handleSubmit} className="mb-4">
         {/* Employee No input is removed */}
         <div className="mb-3">
@@ -240,6 +247,7 @@ const EmployeeList = () => {
           {editEmployeeId ? 'Update Employee' : 'Add Employee'}
         </button>
       </form>
+      <h2>Employee List</h2>
       <table className="table table-striped">
         <thead>
           <tr>
