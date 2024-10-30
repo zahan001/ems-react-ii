@@ -1,28 +1,41 @@
-
-form {
-    background-color: white; /* White background for forms */
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.employee-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px auto;
     padding: 20px;
-    margin: 20px 0;
-}
-
-input[type="text"], input[type="number"], select {
-    width: 100%; /* Full width for inputs */
-    padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-bottom: 15px;
-    transition: border-color 0.3s;
+    border-radius: 5px;
+    max-width: 400px; /* Limit form width */
+    background-color: #f9f9f9; /* Light background */
 }
 
-input[type="text"]:focus, input[type="number"]:focus {
-    border-color: #007bff; /* Change border color on focus */
+.employee-form h2 {
+    margin-bottom: 20px;
 }
 
-label {
+.employee-form label {
+    margin: 10px 0 5px;
     font-weight: bold;
-    margin-bottom: 5px;
-    display: block;
-    color: #333; /* Darker label text */
+}
+
+.employee-form input,
+.employee-form select,
+.employee-form button {
+    width: 100%; /* Full width */
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.employee-form button {
+    background-color: #007bff; /* Primary button color */
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.employee-form button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
 }

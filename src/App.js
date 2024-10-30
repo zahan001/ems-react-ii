@@ -1,20 +1,42 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
 import EmployeeList from './components/EmployeeList';
 import EmployeeForm from './components/EmployeeForm';
+import { fetchEmployees } from './api/api'; // Make sure to import fetchEmployees
 
 const App = () => {
-  return (
-    <Router>
-      <div>
-        <Routes>
-          <Route path="/" element={<EmployeeList />} />
-          <Route path="/add-employee" element={<EmployeeForm />} />
-          <Route path="/edit-employee/:empNo" element={<EmployeeForm />} />
-        </Routes>
-      </div>
-    </Router>
-  );
+    const [showForm, setShowForm] = useState(true);
+    const [employees, setEmployees] = useState([]);
+
+    const handleToggleForm = () => {
+        setShowForm(!showForm);
+    };
+
+    const loadEmployees = async () => {
+        const empData = await fetchEmployees();
+        setEmployees(empData);
+    };
+
+    useEffect(() => {
+        loadEmployees();
+    }, []);
+
+    const handleEmployeeAdded = () => {
+        loadEmployees(); // Refresh the employee list
+    };
+
+    return (
+        <Router>
+            <div className="app-container">
+                <h1>Employee Management System</h1>
+                <button onClick={handleToggleForm}>
+                    {showForm ? 'Hide Form' : 'Add Employee'}
+                </button>
+                {showForm && <EmployeeForm onEmployeeAdded={handleEmployeeAdded} />}
+                <EmployeeList employees={employees} />
+            </div>
+        </Router>
+    );
 };
 
 export default App;

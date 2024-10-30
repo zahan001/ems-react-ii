@@ -1,80 +1,72 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { addEmployee, updateEmployee, fetchEmployeeById, fetchDepartments } from '../api/api';
+import React, { useState, useEffect } from 'react';
+import { addEmployee, fetchDepartments } from '../api/api';
 
-const EmployeeForm = () => {
-  const [employee, setEmployee] = useState({ name: '', departmentId: '' });
-  const [departments, setDepartments] = useState([]);
-  const navigate = useNavigate();
-  const { empNo } = useParams(); // Get employee number from URL parameters
+const EmployeeForm = ({ onEmployeeAdded }) => {
+    const [formData, setFormData] = useState({
+        name: '',
+        departmentId: '',
+        // ... other fields as necessary
+    });
+    
+    const [departments, setDepartments] = useState([]);
 
-  useEffect(() => {
-    const loadDepartments = async () => {
-      const departmentsData = await fetchDepartments();
-      setDepartments(departmentsData);
+    useEffect(() => {
+        const loadDepartments = async () => {
+            try {
+                const deptData = await fetchDepartments();
+                setDepartments(deptData);
+            } catch (error) {
+                console.error('Error fetching departments:', error);
+            }
+        };
+        loadDepartments();
+    }, []);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({ ...prevData, [name]: value }));
     };
 
-    loadDepartments();
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        await addEmployee(formData);
+        setFormData({
+            name: '',
+            departmentId: '',
+            // ... reset other fields
+        });
+        onEmployeeAdded(); // Callback to refetch employees
+    };
 
-    if (empNo) {
-      const loadEmployee = async () => {
-        const employeeData = await fetchEmployeeById(empNo);
-        setEmployee(employeeData);
-      };
-
-      loadEmployee();
-    }
-  }, [empNo]);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setEmployee((prevEmployee) => ({ ...prevEmployee, [name]: value }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (empNo) {
-      await updateEmployee(employee); // Update employee if empNo exists
-    } else {
-      await addEmployee(employee); // Add new employee
-    }
-    navigate('/'); // Navigate back to employee list after submit
-  };
-
-  return (
-    <div>
-      <h2>{empNo ? 'Edit Employee' : 'Add Employee'}</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Name:</label>
-          <input
-            type="text"
-            name="name"
-            value={employee.name}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label>Department:</label>
-          <select
-            name="departmentId"
-            value={employee.departmentId}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Select Department</option>
-            {departments.map((dept) => (
-              <option key={dept.id} value={dept.id}>
-                {dept.name}
-              </option>
-            ))}
-          </select>
-        </div>
-        <button type="submit">{empNo ? 'Update' : 'Add'}</button>
-      </form>
-    </div>
-  );
+    return (
+        <form onSubmit={handleSubmit} className="employee-form">
+            <h2>Add Employee</h2>
+            <label>Name</label>
+            <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+            />
+            <label>Department</label>
+            <select
+                name="departmentId"
+                value={formData.departmentId}
+                onChange={handleChange}
+                required
+            >
+                <option value="">Select Department</option>
+                {departments.map(department => (
+                    <option key={department.id} value={department.id}>
+                        {department.name}
+                    </option>
+                ))}
+            </select>
+            {/* Include other input fields as necessary */}
+            <button type="submit">Add Employee</button>
+        </form>
+    );
 };
 
 export default EmployeeForm;
